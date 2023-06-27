@@ -18,7 +18,7 @@ Descrição:
 
 7.Executar o Script criado no Trabalho Parcial 01 durante a criação desta VM.
 
-# Trabalho_Parcial_2
+# Trabalho_Parcial_3
 Trabalho Referente a Matéria de SERVIÇOS DE REDES DE COMPUTADORES
 
 Descrição: 
