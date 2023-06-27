@@ -1,0 +1,78 @@
+---
+- name: Instalação do Docker
+  hosts: all
+  become: true
+
+  tasks:
+    - name: Copiar script de configuração do firewall
+      copy:
+        src: firewall.sh
+        dest: /tmp/firewall.sh
+        mode: '0755'
+
+    - name: Executar script de configuração do firewall
+      shell: /tmp/firewall.sh
+      args:
+        executable: /bin/bash
+
+    - name: Instalar pacotes necessários para o Docker
+      apt:
+        name:
+          - apt-transport-https
+          - ca-certificates
+          - curl
+          - gnupg
+          - lsb-release
+        state: present
+      when: ansible_distribution == 'Ubuntu'
+
+    - name: Adicionar chave GPG do Docker
+      apt_key:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        state: present
+      when: ansible_distribution == 'Ubuntu'
+
+    - name: Adicionar repositório do Docker
+      apt_repository:
+        repo: "deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ ansible_distribution_release }} stable"
+        state: present
+      when: ansible_distribution == 'Ubuntu'
+
+    - name: Instalar Docker
+      apt:
+        name: docker-ce
+        state: present
+      when: ansible_distribution == 'Ubuntu'
+
+    - name: Iniciar e habilitar o serviço Docker
+      service:
+        name: docker
+        state: started
+        enabled: true
+      when: ansible_distribution == 'Ubuntu'
+
+    - name: Instalar pacotes necessários para o Docker
+      yum:
+        name:
+          - yum-utils
+          - device-mapper-persistent-data
+          - lvm2
+        state: present
+      when: ansible_distribution == 'CentOS' or ansible_distribution == 'RedHat'
+
+    - name: Adicionar repositório do Docker
+      shell: yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+      when: ansible_distribution == 'CentOS' or ansible_distribution == 'RedHat'
+
+    - name: Instalar Docker
+      yum:
+        name: docker-ce
+        state: present
+      when: ansible_distribution == 'CentOS' or ansible_distribution == 'RedHat'
+
+    - name: Iniciar e habilitar o serviço Docker
+      service:
+        name: docker
+        state: started
+        enabled: true
+      when: ansible_distribution == 'CentOS' or ansible_distribution == 'RedHat'

@@ -18,5 +18,8 @@ Descrição:
 
 7.Executar o Script criado no Trabalho Parcial 01 durante a criação desta VM.
 
+# Trabalho_Parcial_2
+Trabalho Referente a Matéria de SERVIÇOS DE REDES DE COMPUTADORES
 
-
+Descrição: 
+  - Utilizando a Entrega realizada no Trabalho Parcial 02, crie uma Playbook Ansible capaz de instalar o Docker na sua VM e execute este procedimento.
